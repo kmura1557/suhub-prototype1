@@ -1,5 +1,4 @@
 const sqlite3 = require("sqlite3").verbose();
-//const makecalender = require("./calendar");
 const queries = require("./queries/event-query");
 const templates = require("./templates/event-temp");
 const { serve } = require("@hono/node-server");
@@ -25,19 +24,27 @@ db.serialize(() => {
 const app = new Hono();
 
 app.get("/", async (c) => {
-  const tweets = await new Promise((resolve) => {
+/*
+    const tweets = await new Promise((resolve) => {
       db.all(queries.Tweets.findAll, (err, rows) => {
           resolve(rows);
       });
   });
 
   const tweetList = templates.TWEET_LIST_VIEW(tweets);
-
-  const response = templates.HTML(tweetList);
+*/
+  const response = templates.HTML();
 
   return c.html(response);
+
 });
 
+app.get("/event_day", async (c) => {
+    const response = templates.EVENT_VIEW();
+
+    return c.html(response);
+})
+/*
 app.get("/user/register", async (c) => {
     const registerForm = templates.USER_REGISTER_FORM_VIEW();
 
@@ -111,6 +118,9 @@ app.post("/tweet", async (c) => {
 
     return c.redirect("/");
 });
+
+
+*/
 
 app.use("/static/*", serveStatic({ root: "./" }));
 

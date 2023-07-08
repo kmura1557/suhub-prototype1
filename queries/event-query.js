@@ -1,3 +1,4 @@
+
 const Tweets = {
     createTable: `
         CREATE TABLE IF NOT EXISTS tweets (
@@ -34,9 +35,8 @@ const Tweets = {
 
 
 
-
-
 /*
+
 const Days = {
     createTable: `
         CREATE TABLE IF NOT EXISTS days (
@@ -78,6 +78,7 @@ const Users = {
     findAll: `SELECT * FROM users;`,
     findByEventId: `SELECT * FROM users WHERE id = (SELECT user_id FROM events WHERE id = ?);`,
 };
+
 module.exports = {
     Days,
     Events,

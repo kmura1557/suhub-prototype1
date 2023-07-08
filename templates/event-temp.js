@@ -12,10 +12,10 @@ const HTML = (calenderBody) => `
     </head>
     <body>
         <header id="header">
-            <h1><a href="./index.html">SUHub</a></h1>
+            <h1><a href="./HTML/index.html">SUHub</a></h1>
             <nav>
                 <ul class="header-nav">
-                    <li><a href="./event.html">event</a></li>
+                    <li><a href="#">event</a></li>
                 </ul>
             </nav>
         </header>
@@ -35,6 +35,37 @@ const HTML = (calenderBody) => `
             </section>
         </main>
         <script src="./static/calendar.js"></script>
+    </body>
+</html>
+`;
+
+const EVENT_VIEW = (event_list) => `
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="uft-8">
+        <title>ただの練習用サイトです</title>
+        <meta name="description" content="JSとSQLをうまく繋げられるか実験(SSR?)">
+        <meta name="width=device-width,initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link rel="stylesheet" href="./static/style-event.css">
+        <link rel="stylesheet" href="./static/style-main.css">
+    </head>
+    <body>
+        <header id="header">
+            <h1><a href="./HTML/index.html">SUHub</a></h1>
+            <nav>
+                <ul class="header-nav">
+                    <li><a href="#">event</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <h2 class="title">イベント一覧</h2>
+            <ul>
+                ${event_list}
+            </ul>
+        </main>
     </body>
 </html>
 `;
@@ -86,6 +117,7 @@ const TWEET_FORM_VIEW = (users) => `
 
 module.exports = {
     HTML,
+    EVENT_VIEW,
     TWEET_LIST_VIEW,
     USER_REGISTER_FORM_VIEW,
     USER_TWEET_LIST_VIEW,
