@@ -35,6 +35,7 @@ const HTML = (calenderBody) => `
             </section>
         </main>
         <script src="./static/calendar.js"></script>
+        <script src="./static/index.js"></script>
     </body>
 </html>
 `;

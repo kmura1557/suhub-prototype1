@@ -95,11 +95,13 @@ function showCalendar(month,year){
                 break;
             }
             else{
+
                 let p = document.createElement("p");
                 day.setAttribute("data-date",date);
                 day.setAttribute("data-month",month+1);
                 day.setAttribute("data-year",year);
                 day.setAttribute("data-month_name",months[month]);
+                day.setAttribute("onclick","goToNewPage()");
                 day.innerHTML = "<span>" + date + "</span>";
 
                 if(date === today.getDate() && year === today.getFullYear() && month === today.getMonth()){
