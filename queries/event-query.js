@@ -1,4 +1,39 @@
+const Events = {
+    createTable: `
+        CREATE TABLE IF NOT EXISTS events (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            content TEXT NOT NULL,
+            user_id INTEGER NOT NULL,
+            created_at DATETIME NOT NULL
+        );
+    `,
+    create: `INSERT INTO events (content, user_id, created_at) VALUES (?, ?, ?);`,
+    findAll: `SELECT * FROM events;`,
+    findByUserId: `SELECT * FROM events WHERE user_id = ?;`,
+};
+const Users = {
+    createTable: `
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            created_at DATETIME NOT NULL
+        );
+    `,
+    create: `INSERT INTO users (name, email, created_at) VALUES (?, ?, ?);`,
+    findAll: `SELECT * FROM users;`,
+    findById: `SELECT * FROM users WHERE id = ?;`,
+    findByTweetId: `SELECT * FROM users WHERE id = (SELECT user_id FROM events WHERE id = ?);`,
+};
 
+module.exports = {
+    Events,
+    Users,
+};
+
+
+
+/*
 const Tweets = {
     createTable: `
         CREATE TABLE IF NOT EXISTS tweets (
@@ -25,18 +60,19 @@ const Tweets = {
     create: `INSERT INTO users (name, email, created_at) VALUES (?, ?, ?);`,
     findAll: `SELECT * FROM users;`,
     findById: `SELECT * FROM users WHERE id = ?;`,
-    findByTweetId: `SELECT * FROM users WHERE id = (SELECT user_id FROM tweets WHERE id = ?);`,
+    findByTweetId: `SELECT * FROM users WHERE id = (SELECT user_id FROM events WHERE id = ?);`,
   };
+
 
   module.exports = {
     Tweets,
     Users,
   };
+*/
 
 
 
 /*
-
 const Days = {
     createTable: `
         CREATE TABLE IF NOT EXISTS days (
@@ -65,6 +101,7 @@ const Events = {
     create: `INSERT INTO Events (name,content,event_day,user_id, created_at) VALUES (?, ?, ?, ?, ?);`,
     findAll: `SELECT * FROM Events;`,
 };
+
 const Users = {
     createTable: `
         CREATE TABLE IF NOT EXISTS users (
@@ -80,6 +117,7 @@ const Users = {
 };
 
 module.exports = {
+    Tweets,
     Days,
     Events,
     Users,

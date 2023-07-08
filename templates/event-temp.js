@@ -40,7 +40,7 @@ const HTML = (calenderBody) => `
 </html>
 `;
 
-const EVENT_VIEW = (event_list) => `
+const EVENT_VIEW = (event_date,event_list) => `
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -62,9 +62,11 @@ const EVENT_VIEW = (event_list) => `
             </nav>
         </header>
         <main>
-            <h2 class="title">イベント一覧</h2>
+            <h2 class="event-date">${event_date}</h2>
             <ul>
-                ${event_list}
+            ${event_list
+                .map((event) => `<li class="event-list">${event.content}</li>`)
+                .join("\n")}
             </ul>
         </main>
     </body>
