@@ -40,7 +40,7 @@ const HTML = (calenderBody) => `
 </html>
 `;
 
-const EVENT_VIEW = (event_date,event_list) => `
+const EVENT_VIEW = (event_list) => `
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -62,13 +62,16 @@ const EVENT_VIEW = (event_date,event_list) => `
             </nav>
         </header>
         <main>
-            <h2 class="event-date">${event_date}</h2>
+            <h2 id="event-date"></h2>
             <ul>
             ${event_list
                 .map((event) => `<li class="event-list">${event.content}</li>`)
                 .join("\n")}
             </ul>
         </main>
+
+        <script src="./static/calendar.js"></script>
+        <script src="./static/index.js"></script>
     </body>
 </html>
 `;

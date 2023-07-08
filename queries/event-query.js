@@ -26,9 +26,41 @@ const Users = {
     findByTweetId: `SELECT * FROM users WHERE id = (SELECT user_id FROM events WHERE id = ?);`,
 };
 
+const Dates = {
+    createTable: `
+        CREATE TABLE IF NOT EXISTS dates (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date INTEGER NOT NULL,
+            year INTEGER NOT NULL,
+            month INTEGER NOT NULL,
+            day INTEGER NOT NULL,
+            user_id INTEGER NOT NULL
+        );
+    `,
+    create: `INSERT INTO dates (date, year, month, day, user_id) VALUES (?, ?, ?, ?, ?);`,
+    findAll: `SELECT * FROM dates;`,
+};
+/*
+const Dates = {
+    createTable: `
+        CREATE TABLE IF NOT EXISTS dates (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date INTEGER NOT NULL,
+            year INTEGER NOT NULL,
+            month INTEGER NOT NULL,
+            day INTEGER NOT NULL,
+        );
+    `,
+    create: `INSERT INTO dates (date,year,month,day,user_id) VALUES (?, ?, ?, ?, ?);`,
+    findAll: `SELECT * FROM dates;`,
+};
+*/
+
+
 module.exports = {
     Events,
     Users,
+    Dates,
 };
 
 
@@ -71,7 +103,6 @@ const Tweets = {
 */
 
 
-
 /*
 const Days = {
     createTable: `
@@ -87,6 +118,8 @@ const Days = {
     create: `INSERT INTO days (date,year,month,day,user_id) VALUES (?, ?, ?, ?, ?);`,
     findAll: `SELECT * FROM days;`,
 };
+*/
+/*
 const Events = {
     createTable: `
         CREATE TABLE IF NOT EXISTS events (

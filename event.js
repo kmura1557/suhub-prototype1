@@ -9,6 +9,7 @@ const { Hono } = require("hono");
 const db = new sqlite3.Database("database.db");
 
 db.serialize(() => {
+    db.run(queries.Dates.createTable);
     db.run(queries.Events.createTable);
     db.run(queries.Users.createTable);
 
@@ -16,9 +17,9 @@ db.serialize(() => {
     db.run(queries.Users.create, 'みかん次郎', 'mikan@example.com', '2022-08-15 00:00:01');
     db.run(queries.Users.create, 'ぶどう三郎', 'budo@example.com', '2022-08-15 00:00:02');
 
-    db.run(queries.Events.create, 'あけおめ！', 3, '2023-01-01 00:00:00');
-    db.run(queries.Events.create, '今年もよろしくお願いします！', 2, '2023-01-01 00:00:01');
-    db.run(queries.Events.create, '今年こそは痩せるぞ！', 1, '2023-01-01 00:00:02');
+    db.run(queries.Events.create, '埼大バレー大会', 3, '2023-01-01 00:00:00');
+    db.run(queries.Events.create, '埼大コンテスト', 2, '2023-01-01 00:00:01');
+    db.run(queries.Events.create, 'サークル対抗リレー対決', 1, '2023-01-01 00:00:02');
 });
 
 const app = new Hono();
@@ -46,7 +47,7 @@ app.get("/event_day", async (c) => {
         });
     });
 
-    const response = templates.EVENT_VIEW("a",events);
+    const response = templates.EVENT_VIEW(events);
 
     return c.html(response);
 })

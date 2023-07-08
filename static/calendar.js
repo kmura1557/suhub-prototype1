@@ -103,6 +103,7 @@ function showCalendar(month,year){
                 day.setAttribute("data-month_name",months[month]);
                 day.setAttribute("onclick","goToNewPage()");
                 day.innerHTML = "<span>" + date + "</span>";
+                console.log(date);
 
                 if(date === today.getDate() && year === today.getFullYear() && month === today.getMonth()){
                     p.className = "date-picker";
