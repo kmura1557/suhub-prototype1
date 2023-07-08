@@ -11,7 +11,7 @@ const Tweets = {
     findAll: `SELECT * FROM tweets;`,
     findByUserId: `SELECT * FROM tweets WHERE user_id = ?;`,
   };
-  
+
   const Users = {
     createTable: `
         CREATE TABLE IF NOT EXISTS users (
@@ -26,7 +26,7 @@ const Tweets = {
     findById: `SELECT * FROM users WHERE id = ?;`,
     findByTweetId: `SELECT * FROM users WHERE id = (SELECT user_id FROM tweets WHERE id = ?);`,
   };
-  
+
   module.exports = {
     Tweets,
     Users,
@@ -51,7 +51,6 @@ const Days = {
     create: `INSERT INTO days (date,year,month,day,user_id) VALUES (?, ?, ?, ?, ?);`,
     findAll: `SELECT * FROM days;`,
 };
-
 const Events = {
     createTable: `
         CREATE TABLE IF NOT EXISTS events (
@@ -66,7 +65,6 @@ const Events = {
     create: `INSERT INTO Events (name,content,event_day,user_id, created_at) VALUES (?, ?, ?, ?, ?);`,
     findAll: `SELECT * FROM Events;`,
 };
-
 const Users = {
     createTable: `
         CREATE TABLE IF NOT EXISTS users (
@@ -80,11 +78,9 @@ const Users = {
     findAll: `SELECT * FROM users;`,
     findByEventId: `SELECT * FROM users WHERE id = (SELECT user_id FROM events WHERE id = ?);`,
 };
-
 module.exports = {
     Days,
     Events,
     Users,
 }
-
 */

@@ -6,12 +6,10 @@ const HTML = (calenderBody) => `
         <title>ただの練習用サイトです</title>
         <meta name="description" content="JSとSQLをうまく繋げられるか実験(SSR?)">
         <meta name="width=device-width,initial-scale=1.0">
-
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link rel="stylesheet" href="./static/style-event.css">
         <link rel="stylesheet" href="./static/style-main.css">
     </head>
-
     <body>
         <header id="header">
             <h1><a href="./index.html">SUHub</a></h1>
@@ -21,10 +19,8 @@ const HTML = (calenderBody) => `
                 </ul>
             </nav>
         </header>
-
         <main>
             <h2>イベント一覧</h2>
-
             <section class="event">
                 <div class="year-month">
                     <button id="previous-m" class="change-month" onclick="previous()" type="submit">前月</button>
@@ -35,10 +31,8 @@ const HTML = (calenderBody) => `
                 <div id="calendar-body">
                     ${calenderBody}
                 </div>
-
             </section>
         </main>
-
         <script src="./calendar.js" type="text/javascript"></script>
         <script src="../index.js" type="text/javascript"></script>
     </body>
