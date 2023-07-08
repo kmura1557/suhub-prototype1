@@ -29,12 +29,12 @@ const HTML = (calenderBody) => `
                 </div>
             
                 <div id="calendar-body">
-                    ${calenderBody}
+                    
                 </div>
+                ${calenderBody}
             </section>
         </main>
-        <script src="./calendar.js" type="text/javascript"></script>
-        <script src="../index.js" type="text/javascript"></script>
+        <script src="./static/calendar.js"></script>
     </body>
 </html>
 `;

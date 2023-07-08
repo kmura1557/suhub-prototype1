@@ -1,11 +1,11 @@
 //const { parseBody } = require("hono/utils/body");
 
-const temp = require("./templates/event-temp");
+//const temp = require("./templates/event-temp");
 
 const months = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 const days = ["日","月","火","水","木","金","土"];
 
-const calender = document.getElementById("calender-body");
+const calendar = document.getElementById("calendar-body");
 
 let today = new Date();
 let currentMonth = today.getMonth();
@@ -15,24 +15,24 @@ let monthAndYear = document.getElementById("monthAndYear");
 
 //1月->0,2月->1,...,12月->11
 
-showCalender(currentMonth,currentYear);
+showCalendar(currentMonth,currentYear);
 
 //次の月へ進む
 function next() {
     currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
     currentMonth = (currentMonth + 1) % 12;
 
-    showCalender(currentMonth,currentYear);
+    showCalendar(currentMonth,currentYear);
 }
 //前の月へ戻る
 function previous() {
-    currentYear = (currentYear === 0) ? currentYear - 1 : currentYear;
+    currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
     currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
 
-    showCalender(currentMonth,currentYear);
+    showCalendar(currentMonth,currentYear);
 }
 
-function showCalender(month,year){
+function showCalendar(month,year){
     let firstDay = (new Date(year,month)).getDay();
 
     const week = `
@@ -60,7 +60,7 @@ function showCalender(month,year){
     `;
 
     //一度初期化
-    temp.HTML("");
+    calendar.innerHTML = week;
 
     monthAndYear.innerHTML = year + " " + months[month];
 
@@ -115,7 +115,7 @@ function showCalender(month,year){
             }
         }
     }
-    calender.append(frag);
+    calendar.append(frag);
 }
 
 function daysInMonth(iMonth,iYear){

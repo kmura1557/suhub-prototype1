@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="uft-8">
+        <title>ただの練習用サイトです</title>
+        <meta name="description" content="JSとSQLをうまく繋げられるか実験(SSR?)">
+        <meta name="width=device-width,initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+        <link rel="stylesheet" href="./static/style-event.css">
+        <link rel="stylesheet" href="./static/style-main.css">
+    </head>
+    <body>
+        <header id="header">
+            <h1><a href="./index.html">SUHub</a></h1>
+            <nav>
+                <ul class="header-nav">
+                    <li><a href="./event.html">event</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <h2>イベント一覧</h2>
+            <section class="event">
+                <div class="year-month">
+                    <button id="previous-m" class="change-month" onclick="previous()" type="submit">前月</button>
+                    <h3 id="monthAndYear">2023年07月</h3>
+                    <button id="next-m" class="change-month" onclick="next()">翌月</button>
+                </div>
+            
+                <div id="calendar-body">
+                    
+                </div>
+            </section>
+        </main>
+        <script src="./static/calendar.js"></script>
+    </body>
+</html>
