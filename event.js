@@ -40,6 +40,8 @@ app.get("/", async (c) => {
 
 });
 
+
+
 app.get("/event_day", async (c) => {
     const events = await new Promise((resolve) => {
         db.all(queries.Events.findAll,(err,rows) => {
@@ -50,7 +52,56 @@ app.get("/event_day", async (c) => {
     const response = templates.EVENT_VIEW(events);
 
     return c.html(response);
-})
+});
+
+app.post("/",async (c) => {
+    const Dates = await new Promise((resolve) => {
+        db.all(queries.Events.findDate,202378,(err,rows) => {
+            resolve(rows);
+        });
+    });
+    
+    return c.redirect(`/event_day/${Dates}`);
+});
+
+
+app.get("/event_day/:date",async (c) => {
+    const EventDay = c.req.param("day");
+
+    const events = await new Promise((resolve) => {
+        db.get(queries.Events.findByDate,EventDay,(err,row) => {
+            resolve(row);
+        });
+    });
+
+    if(!events){
+        const Date = await new Promise((resolve) => {
+            db.get(queries.Dates.findAll,(err,rows) => {
+                resolve(rows);
+            });
+        });
+        const response = templates.EVENT_VIEW("この日のイベントの予定はありません");
+
+        return c.html(response);
+    }
+    const Dates = await new Promise((resolve) => {
+        db.get(queries.Dates.findAll,(err,rows) => {
+            resolve(rows);
+        });
+    });
+    const EventsList = await new Promise((resolve) => {
+        db.all(queries.Events.findAll,(err,row) => {
+            resolve(row);
+        });
+    });
+
+    const responses = templates.EVENT_VIEW(Dates,EventsList);
+
+    return c.html(responses);
+});
+
+
+
 /*
 app.get("/user/register", async (c) => {
     const registerForm = templates.USER_REGISTER_FORM_VIEW();
@@ -59,6 +110,7 @@ app.get("/user/register", async (c) => {
 
     return c.html(response);
 });
+
 
 app.post("/user/register", async (c) => {
     const body = await c.req.parseBody();
@@ -72,6 +124,7 @@ app.post("/user/register", async (c) => {
 
     return c.redirect(`/user/${userID}`);
 });
+
 
 app.get("/user/:id", async (c) => {
     const userId = c.req.param("id");
@@ -125,9 +178,9 @@ app.post("/tweet", async (c) => {
 
     return c.redirect("/");
 });
-
-
 */
+
+
 
 app.use("/static/*", serveStatic({ root: "./" }));
 

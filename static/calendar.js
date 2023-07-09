@@ -101,7 +101,19 @@ function showCalendar(month,year){
                 day.setAttribute("data-month",month+1);
                 day.setAttribute("data-year",year);
                 day.setAttribute("data-month_name",months[month]);
-                day.setAttribute("onclick","goToNewPage()");
+//                day.setAttribute("onclick","goToNewPage()");
+
+
+                let form = document.createElement("form");
+                form.setAttribute("action","/");
+                form.setAttribute("method","post");
+
+                let btn = document.createElement("button");
+                btn.setAttribute("type","submit");
+                btn.innerHTML = "この日のイベント情報を見る";
+
+                form.append(btn);
+
                 day.innerHTML = "<span>" + date + "</span>";
                 console.log(date);
 
@@ -113,6 +125,7 @@ function showCalendar(month,year){
                 day.setAttribute('id','event-day');
     
                 day.append(p);
+                day.append(form);
                 frag.append(day);
                 date++;
             }

@@ -1,4 +1,4 @@
-const HTML = (calenderBody) => `
+const HTML = () => `
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -31,7 +31,6 @@ const HTML = (calenderBody) => `
                 <div id="calendar-body">
                     
                 </div>
-                ${calenderBody}
             </section>
         </main>
         <script src="./static/calendar.js"></script>
@@ -62,7 +61,7 @@ const EVENT_VIEW = (event_list) => `
             </nav>
         </header>
         <main>
-            <h2 id="event-date"></h2>
+            <h2 id="event-date">この日のイベント情報</h2>
             <ul>
             ${event_list
                 .map((event) => `<li class="event-list">${event.content}</li>`)
@@ -70,7 +69,6 @@ const EVENT_VIEW = (event_list) => `
             </ul>
         </main>
 
-        <script src="./static/calendar.js"></script>
         <script src="./static/index.js"></script>
     </body>
 </html>
