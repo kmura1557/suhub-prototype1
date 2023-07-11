@@ -110,7 +110,8 @@ function showCalendar(month,year){
 
                 let btn = document.createElement("button");
                 btn.setAttribute("type","submit");
-                btn.innerHTML = "この日のイベント情報を見る";
+                btn.className = "event-btn";
+                btn.innerHTML = "イベント情報を見る";
 
                 form.append(btn);
 

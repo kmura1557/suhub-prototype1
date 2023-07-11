@@ -17,9 +17,12 @@ db.serialize(() => {
     db.run(queries.Users.create, 'みかん次郎', 'mikan@example.com', '2022-08-15 00:00:01');
     db.run(queries.Users.create, 'ぶどう三郎', 'budo@example.com', '2022-08-15 00:00:02');
 
-    db.run(queries.Events.create, '埼大バレー大会', 3, '2023-01-01 00:00:00');
-    db.run(queries.Events.create, '埼大コンテスト', 2, '2023-01-01 00:00:01');
-    db.run(queries.Events.create, 'サークル対抗リレー対決', 1, '2023-01-01 00:00:02');
+    db.run(queries.Events.create, '埼大バレー大会', "盛り上がろう！", 3, '2023-01-01 00:00:00', 20230710);
+    db.run(queries.Events.create, '埼大コンテスト', "ぜひお越しください", 2, '2023-01-01 00:00:01', 20230710);
+    db.run(queries.Events.create, 'サークル対抗リレー対決', "エントリー待ってます！", 1, '2023-01-01 00:00:02', 20231011);
+
+    db.run(queries.Dates.create, 2023,7,10,20230710,2);
+//    db.run(queries.Events.create, 'テニス大会', 4, )
 });
 
 const app = new Hono();
@@ -41,7 +44,7 @@ app.get("/", async (c) => {
 });
 
 
-
+/*
 app.get("/event_day", async (c) => {
     const events = await new Promise((resolve) => {
         db.all(queries.Events.findAll,(err,rows) => {
@@ -53,34 +56,35 @@ app.get("/event_day", async (c) => {
 
     return c.html(response);
 });
+*/
+
+let pointDay;
 
 app.post("/",async (c) => {
+    
     const Dates = await new Promise((resolve) => {
-        db.all(queries.Events.findDate,202378,(err,rows) => {
+        db.get(queries.Dates.findDay,20230710,(err,rows) => {
             resolve(rows);
         });
     });
-    
-    return c.redirect(`/event_day/${Dates}`);
+    pointDay = Dates.day;
+    return c.redirect(`/event_day/${pointDay}`);
 });
 
 
 app.get("/event_day/:date",async (c) => {
-    const EventDay = c.req.param("day");
-
+    const EventDay = c.req.param("date");
+    console.log(EventDay);
     const events = await new Promise((resolve) => {
-        db.get(queries.Events.findByDate,EventDay,(err,row) => {
+        db.all(queries.Events.findByDate,EventDay,(err,row) => {
             resolve(row);
         });
     });
 
-    if(!events){
-        const Date = await new Promise((resolve) => {
-            db.get(queries.Dates.findAll,(err,rows) => {
-                resolve(rows);
-            });
-        });
-        const response = templates.EVENT_VIEW("この日のイベントの予定はありません");
+//    console.log(events);
+
+    if(events === undefined){
+        const response = templates.EVENT_VIEW_NONE("この日イベントの予定はありません");
 
         return c.html(response);
     }
@@ -89,26 +93,37 @@ app.get("/event_day/:date",async (c) => {
             resolve(rows);
         });
     });
+/*
     const EventsList = await new Promise((resolve) => {
-        db.all(queries.Events.findAll,(err,row) => {
+        db.all(queries.Events.findByDate,(err,row) => {
             resolve(row);
         });
     });
+*/
 
-    const responses = templates.EVENT_VIEW(Dates,EventsList);
+//    console.log(events);
+//    console.log(Dates);
+
+    const ymd = `${Dates.year + "年" + Dates.month + "月" + Dates.date + "日"}`;
+
+    let result = '';
+
+    for (let elem of events) {
+        result += `<li class="event-list">イベント名：${elem.name}　　　`;
+        result += `一言：${elem.content}</li>`;
+    }
+
+    const responses = templates.EVENT_VIEW(ymd,result);
 
     return c.html(responses);
 });
 
 
 
-/*
 app.get("/user/register", async (c) => {
     const registerForm = templates.USER_REGISTER_FORM_VIEW();
 
-    const response = templates.HTML(registerForm);
-
-    return c.html(response);
+    return c.html(registerForm);
 });
 
 
@@ -122,10 +137,10 @@ app.post("/user/register", async (c) => {
         });
     });
 
-    return c.redirect(`/user/${userID}`);
+    return c.redirect(`/`);
 });
 
-
+/*
 app.get("/user/:id", async (c) => {
     const userId = c.req.param("id");
 
@@ -151,8 +166,9 @@ app.get("/user/:id", async (c) => {
 
     return c.html(response);
 });
-
-app.get("/tweet", async (c) => {
+*/
+/*
+app.get("/event/register", async (c) => {
     const users = await new Promise((resolve) => {
         db.all(queries.Users.findAll, (err, rows) => {
             resolve(rows);
@@ -166,12 +182,12 @@ app.get("/tweet", async (c) => {
     return c.html(response);
 });
 
-app.post("/tweet", async (c) => {
+app.post("/event/register", async (c) => {
     const body = await c.req.parseBody();
     const now = new Date().toISOString();
 
     await new Promise((resolve) => {
-        db.run(queries.Tweets.create, body.content, body.user_id, now, (err) => {
+        db.run(queries.Events.create, body.content, body.user_id, now, (err) => {
             resolve();
         });
     });

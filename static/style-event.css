@@ -54,3 +54,6 @@
 #calendar-body .selected{
     background-color: rgb(129, 207, 57);
 }
+#calendar-body .event-btn{
+    font-size: 14px;
+}

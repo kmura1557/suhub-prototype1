@@ -2,13 +2,14 @@ const Events = {
     createTable: `
         CREATE TABLE IF NOT EXISTS events (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
             content TEXT NOT NULL,
             user_id INTEGER NOT NULL,
             created_at DATETIME NOT NULL,
             date INTEGER NOT NULL
         );
     `,
-    create: `INSERT INTO events (content, user_id, created_at) VALUES (?, ?, ?);`,
+    create: `INSERT INTO events (name,content, user_id, created_at, date) VALUES (?, ?, ?, ?, ?);`,
     findAll: `SELECT * FROM events;`,
     findByUserId: `SELECT * FROM events WHERE user_id = ?;`,
     findByDate: `SELECT * FROM events WHERE date = ?;`,
@@ -39,9 +40,9 @@ const Dates = {
             user_id INTEGER NOT NULL
         );
     `,
-    create: `INSERT INTO dates (date, year, month, day, user_id) VALUES (?, ?, ?, ?, ?);`,
+    create: `INSERT INTO dates (year, month, date, day, user_id) VALUES (?, ?, ?, ?, ?);`,
     findAll: `SELECT * FROM dates;`,
-    findDay: `SELECT day FROM dates;`,
+    findDay: `SELECT day FROM dates WHERE day = ?;`,
 };
 
 module.exports = {
