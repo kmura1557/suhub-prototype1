@@ -66,8 +66,6 @@ const EVENT_VIEW = (event_day,event_list) => `
             </ul>
         </main>
 
-        <script src="./static/index.js"></script>
-        <script src="../static/index.js"></script>
     </body>
 </html>
 `;
@@ -97,8 +95,6 @@ const EVENT_VIEW_NONE = (event_list) => `
             <h2 id="event-date">この日のイベント情報</h2>
             <p class="no-event">${event_list}</p>
         </main>
-
-        <script src="../static/index.js"></script>
     </body>
 </html>
 `;
@@ -146,7 +142,6 @@ const USER_REGISTER_FORM_VIEW = () => `
         </form>
         </main>
         <script src="./static/calendar.js"></script>
-        <script src="../static/index.js"></script>
     </body>
 </html>
 `;
@@ -196,7 +191,6 @@ const TWEET_FORM_VIEW = (users) => `
 </form>
         </main>
         <script src="./static/calendar.js"></script>
-        <script src="./static/index.js"></script>
     </body>
 </html>
 `;

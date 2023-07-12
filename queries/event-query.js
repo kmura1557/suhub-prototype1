@@ -41,6 +41,7 @@ const Dates = {
         );
     `,
     create: `INSERT INTO dates (year, month, date, day, user_id) VALUES (?, ?, ?, ?, ?);`,
+    createDay: `INSERT INTO dates (day) VALUES (?);`,
     findAll: `SELECT * FROM dates;`,
     findDay: `SELECT day FROM dates WHERE day = ?;`,
 };

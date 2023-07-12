@@ -97,10 +97,10 @@ function showCalendar(month,year){
             else{
 
                 let p = document.createElement("p");
-                day.setAttribute("data-date",date);
-                day.setAttribute("data-month",month+1);
-                day.setAttribute("data-year",year);
-                day.setAttribute("data-month_name",months[month]);
+                day.setAttribute("data_date",date);
+                day.setAttribute("data_month",month+1);
+                day.setAttribute("data_year",year);
+                day.setAttribute("data_month_name",months[month]);
 //                day.setAttribute("onclick","goToNewPage()");
 
 

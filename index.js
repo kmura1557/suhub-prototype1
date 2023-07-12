@@ -1,6 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
 const queries = require("./queries/event-query");
-const templates = require("./templates/event-temp");
+const templates = require("./templates/index.temp");
 const { serve } = require("@hono/node-server");
 const { serveStatic } = require("@hono/node-server/serve-static");
 const { Hono } = require("hono");
@@ -26,6 +26,8 @@ db.serialize(() => {
 });
 
 const app = new Hono();
+
+
 
 app.get("/", async (c) => {
 /*
@@ -63,17 +65,21 @@ let pointDay;
 app.post("/",async (c) => {
     
     const Dates = await new Promise((resolve) => {
+        db.run(queries.Dates.create, 2023,7,10,20230710,2);
+
         db.get(queries.Dates.findDay,20230710,(err,rows) => {
             resolve(rows);
         });
     });
     pointDay = Dates.day;
+
     return c.redirect(`/event_day/${pointDay}`);
 });
 
 
 app.get("/event_day/:date",async (c) => {
     const EventDay = c.req.param("date");
+
     console.log(EventDay);
     const events = await new Promise((resolve) => {
         db.all(queries.Events.findByDate,EventDay,(err,row) => {
@@ -210,25 +216,3 @@ process.stdin.on("data", (data) => {
 });
 
 
-
-
-/*
-const sqlite3 = require('sqlite3').verbose();
-const queries = require('./queries/event-query');
-const db = new sqlite3.Database('database.db');
-db.serialize(() => {
-    db.run(queries.Days.createTable);
-    db.run(queries.Events.createTable);
-    db.run(queries.Users.createTable);
-    db.run(queries.Users.create, '埼大バレー部','saidaivolleyball@example.com','2023-0401 00:00:00');
-    db.run(queries.Users.create, '埼大FP','saidaifp@example.com','2023-0401 00:00:01');
-    db.run(queries.Users.create, '埼大陸上部','saidaiTandF@example.com','2023-0401 00:00:02');
-    db.run(queries.Days.create,202363,2023,6,3,1);
-    db.run(queries.Days.create,2023725,2023,7,25,2);
-    db.run(queries.Days.create,20231018,2023,10,18,3);
-    db.run(queries.Events.create,'埼大コンテスト','是非お越しください',2023725,2,'2023-07-01 00:00:00');
-    db.run(queries.Events.create,'サークル対抗リレー対決','盛り上がろう！',20231018,3,'2023-07-01 00:00:01');
-    db.run(queries.Events.create,'バレー大会','誰でも参加できます！',202363,1,'2023-07-01 00:00:02');
-});
-db.close();
-*/
