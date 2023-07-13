@@ -70,7 +70,7 @@ const EVENT_VIEW = (event_day,event_list) => `
 </html>
 `;
 
-const EVENT_VIEW_NONE = (event_list) => `
+const EVENT_VIEW_NONE = (date,event_list) => `
 <!DOCTYPE html>
 <html lang="ja">
     <head>
@@ -92,7 +92,7 @@ const EVENT_VIEW_NONE = (event_list) => `
             </nav>
         </header>
         <main>
-            <h2 id="event-date">この日のイベント情報</h2>
+            <h2 id="event-date">${date}のイベント情報</h2>
             <p class="no-event">${event_list}</p>
         </main>
     </body>

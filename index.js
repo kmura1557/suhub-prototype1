@@ -1,6 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
 const queries = require("./queries/event-query");
-const templates = require("./templates/index.temp");
+const templates = require("./templates/index-temp");
 const { serve } = require("@hono/node-server");
 const { serveStatic } = require("@hono/node-server/serve-static");
 const { Hono } = require("hono");
@@ -21,7 +21,7 @@ db.serialize(() => {
     db.run(queries.Events.create, '埼大コンテスト', "ぜひお越しください", 2, '2023-01-01 00:00:01', 20230710);
     db.run(queries.Events.create, 'サークル対抗リレー対決', "エントリー待ってます！", 1, '2023-01-01 00:00:02', 20231011);
 
-    db.run(queries.Dates.create, 2023,7,10,20230710,2);
+//    db.run(queries.Dates.create, 2023,7,10,20230710,2);
 //    db.run(queries.Events.create, 'テニス大会', 4, )
 });
 
@@ -63,11 +63,11 @@ app.get("/event_day", async (c) => {
 let pointDay;
 
 app.post("/",async (c) => {
-    
+    const body = await c.req.parseBody();
     const Dates = await new Promise((resolve) => {
-        db.run(queries.Dates.create, 2023,7,10,20230710,2);
+        db.run(queries.Dates.create, body.year,body.month,body.date,body.day,2);
 
-        db.get(queries.Dates.findDay,20230710,(err,rows) => {
+        db.get(queries.Dates.findDay,body.day,(err,rows) => {
             resolve(rows);
         });
     });
@@ -80,48 +80,49 @@ app.post("/",async (c) => {
 app.get("/event_day/:date",async (c) => {
     const EventDay = c.req.param("date");
 
-    console.log(EventDay);
+//    console.log(EventDay);
     const events = await new Promise((resolve) => {
         db.all(queries.Events.findByDate,EventDay,(err,row) => {
             resolve(row);
         });
     });
-
-//    console.log(events);
-
-    if(events === undefined){
-        const response = templates.EVENT_VIEW_NONE("この日イベントの予定はありません");
-
-        return c.html(response);
-    }
     const Dates = await new Promise((resolve) => {
-        db.get(queries.Dates.findAll,(err,rows) => {
+        db.get(queries.Dates.findDay,EventDay,(err,rows) => {
             resolve(rows);
         });
     });
-/*
-    const EventsList = await new Promise((resolve) => {
-        db.all(queries.Events.findByDate,(err,row) => {
-            resolve(row);
-        });
-    });
-*/
-
-//    console.log(events);
-//    console.log(Dates);
 
     const ymd = `${Dates.year + "年" + Dates.month + "月" + Dates.date + "日"}`;
 
-    let result = '';
 
-    for (let elem of events) {
-        result += `<li class="event-list">イベント名：${elem.name}　　　`;
-        result += `一言：${elem.content}</li>`;
+    if(Object.keys(events).length === 0){
+        const response = templates.EVENT_VIEW_NONE(ymd,"この日イベントの予定はありません");
+
+        return c.html(response);
     }
+    else{  
+/*
+        const EventsList = await new Promise((resolve) => {
+            db.all(queries.Events.findByDate,(err,row) => {
+                resolve(row);
+            });
+        });
+*/
 
-    const responses = templates.EVENT_VIEW(ymd,result);
+//      console.log(events);
+//      console.log(Dates);
 
-    return c.html(responses);
+        let result = '';
+
+        for (let elem of events) {
+            result += `<li class="event-list">イベント名：${elem.name}　　　`;
+            result += `一言：${elem.content}</li>`;
+        }
+
+        const responses = templates.EVENT_VIEW(ymd,result);
+
+        return c.html(responses);
+    }
 });
 
 

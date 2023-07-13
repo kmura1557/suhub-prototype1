@@ -107,13 +107,34 @@ function showCalendar(month,year){
                 let form = document.createElement("form");
                 form.setAttribute("action","/");
                 form.setAttribute("method","post");
+                let data_year = document.createElement("input");
+                data_year.setAttribute("name","year");
+                data_year.setAttribute("value",year);
+                let data_month = document.createElement("input");
+                data_month.setAttribute("name","month");
+                data_month.setAttribute("value",month+1);
+                let data_date = document.createElement("input");
+                data_date.setAttribute("name","date");
+                data_date.setAttribute("value",date);
+                let data_day = document.createElement("input");
+                data_day.setAttribute("name","day");
+                data_day.setAttribute("value",year*10000+(month+1)*100+date);
 
                 let btn = document.createElement("button");
                 btn.setAttribute("type","submit");
                 btn.className = "event-btn";
                 btn.innerHTML = "イベント情報を見る";
 
+                form.append(data_year);
+                form.append(data_month);
+                form.append(data_date);
+                form.append(data_day);
                 form.append(btn);
+
+                data_year.setAttribute("style","display: none");
+                data_month.setAttribute("style","display: none");
+                data_date.setAttribute("style","display: none");
+                data_day.setAttribute("style","display: none");
 
                 day.innerHTML = "<span>" + date + "</span>";
                 console.log(date);
