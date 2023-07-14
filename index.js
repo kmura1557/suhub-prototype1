@@ -8,10 +8,12 @@ const { Hono } = require("hono");
 
 const db = new sqlite3.Database("database.db");
 
+
 db.serialize(() => {
     db.run(queries.Dates.createTable);
     db.run(queries.Events.createTable);
     db.run(queries.Users.createTable);
+
 
     db.run(queries.Users.create, 'りんご太郎', 'apple@example.com', '2022-08-15 00:00:00');
     db.run(queries.Users.create, 'みかん次郎', 'mikan@example.com', '2022-08-15 00:00:01');
@@ -20,6 +22,7 @@ db.serialize(() => {
     db.run(queries.Events.create, '埼大バレー大会', "盛り上がろう！", 3, '2023-01-01 00:00:00', 20230710);
     db.run(queries.Events.create, '埼大コンテスト', "ぜひお越しください", 2, '2023-01-01 00:00:01', 20230710);
     db.run(queries.Events.create, 'サークル対抗リレー対決', "エントリー待ってます！", 1, '2023-01-01 00:00:02', 20231011);
+
 
 //    db.run(queries.Dates.create, 2023,7,10,20230710,2);
 //    db.run(queries.Events.create, 'テニス大会', 4, )
@@ -64,6 +67,7 @@ let pointDay;
 
 app.post("/",async (c) => {
     const body = await c.req.parseBody();
+
     const Dates = await new Promise((resolve) => {
         db.run(queries.Dates.create, body.year,body.month,body.date,body.day,2);
 
@@ -147,6 +151,8 @@ app.post("/user/register", async (c) => {
     return c.redirect(`/`);
 });
 
+
+
 /*
 app.get("/user/:id", async (c) => {
     const userId = c.req.param("id");
@@ -174,7 +180,8 @@ app.get("/user/:id", async (c) => {
     return c.html(response);
 });
 */
-/*
+
+
 app.get("/event/register", async (c) => {
     const users = await new Promise((resolve) => {
         db.all(queries.Users.findAll, (err, rows) => {
@@ -182,27 +189,64 @@ app.get("/event/register", async (c) => {
         });
     });
 
-    const tweetForm = templates.TWEET_FORM_VIEW(users);
-
-    const response = templates.HTML(tweetForm);
+    const response = templates.EVENT_FORM_VIEW(users);
 
     return c.html(response);
 });
-
+/*
 app.post("/event/register", async (c) => {
     const body = await c.req.parseBody();
     const now = new Date().toISOString();
 
+    console.log(body);
+    const date = body.year*10000+body.month*100+body.day;
+    console.log(body);
+
+    db.run(queries.Dates.create, body.year,body.month,body.day,date,2);
+
     await new Promise((resolve) => {
-        db.run(queries.Events.create, body.content, body.user_id, now, (err) => {
+        db.run(queries.Events.create, body.name, body.content, body.user_id, now, date, (err) => {
             resolve();
         });
     });
 
-    return c.redirect("/");
+    return c.redirect(`/`);
 });
 */
+app.post("/event/register", async (c) => {
+  try {
+    const body = await c.req.parseBody();
+    const now = new Date().toISOString();
+    
+    const date = parseInt(body.year) * 10000 + parseInt(body.month) * 100 + parseInt(body.day);
 
+/*
+    await new Promise((resolve, reject) => {
+      db.run(queries.Dates.create, body.year, body.month, body.day, date, 2, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+*/
+    await new Promise((resolve, reject) => {
+      db.run(queries.Events.create, body.name, body.content, body.user_id, now, date, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+
+    return c.redirect(`/`);
+  } catch (error) {
+    console.error(error);
+    // エラーハンドリングを行う必要があります
+  }
+});
 
 
 app.use("/static/*", serveStatic({ root: "./" }));

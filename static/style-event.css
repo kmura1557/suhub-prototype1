@@ -57,3 +57,18 @@
 #calendar-body .event-btn{
     font-size: 14px;
 }
+
+form label{
+    display: block;
+}
+form #name{
+    display: block;
+    border: #777 1px solid;
+}
+form #content{
+    display: block;
+    border: #777 1px solid;
+}
+form #user_id{
+    display: block;
+}

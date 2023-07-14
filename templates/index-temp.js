@@ -5,7 +5,7 @@ const HTML = () => `
         <meta charset="uft-8">
         <title>ただの練習用サイトです</title>
         <meta name="description" content="JSとSQLをうまく繋げられるか実験(SSR?)">
-        <meta name="width=device-width,initial-scale=1.0">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link rel="stylesheet" href="./static/style-event.css">
         <link rel="stylesheet" href="./static/style-main.css">
@@ -33,6 +33,11 @@ const HTML = () => `
                 </div>
             </section>
         </main>
+
+        <footer>
+            <a href="./event/register">団体専用ページ</a>
+        </footer>
+
         <script src="./static/calendar.js"></script>
     </body>
 </html>
@@ -45,7 +50,7 @@ const EVENT_VIEW = (event_day,event_list) => `
         <meta charset="uft-8">
         <title>ただの練習用サイトです</title>
         <meta name="description" content="JSとSQLをうまく繋げられるか実験(SSR?)">
-        <meta name="width=device-width,initial-scale=1.0">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link rel="stylesheet" href="../static/style-event.css">
         <link rel="stylesheet" href="../static/style-main.css">
@@ -66,6 +71,10 @@ const EVENT_VIEW = (event_day,event_list) => `
             </ul>
         </main>
 
+        <footer>
+            <a href="../event/register">団体専用ページ</a>
+        </footer>
+
     </body>
 </html>
 `;
@@ -77,7 +86,7 @@ const EVENT_VIEW_NONE = (date,event_list) => `
         <meta charset="uft-8">
         <title>ただの練習用サイトです</title>
         <meta name="description" content="JSとSQLをうまく繋げられるか実験(SSR?)">
-        <meta name="width=device-width,initial-scale=1.0">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link rel="stylesheet" href="../static/style-event.css">
         <link rel="stylesheet" href="../static/style-main.css">
@@ -95,6 +104,11 @@ const EVENT_VIEW_NONE = (date,event_list) => `
             <h2 id="event-date">${date}のイベント情報</h2>
             <p class="no-event">${event_list}</p>
         </main>
+
+        <footer>
+            <a href="../event/register">団体専用ページ</a>
+        </footer>
+
     </body>
 </html>
 `;
@@ -110,17 +124,16 @@ const TWEET_LIST_VIEW = (tweets) => `
 `;
 
 const USER_REGISTER_FORM_VIEW = () => `
-
 <!DOCTYPE html>
 <html lang="ja">
     <head>
         <meta charset="uft-8">
         <title>ただの練習用サイトです</title>
         <meta name="description" content="JSとSQLをうまく繋げられるか実験(SSR?)">
-        <meta name="width=device-width,initial-scale=1.0">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
-        <link rel="stylesheet" href="./static/style-event.css">
-        <link rel="stylesheet" href="./static/style-main.css">
+        <link rel="stylesheet" href="../static/style-event.css">
+        <link rel="stylesheet" href="../static/style-main.css">
     </head>
     <body>
         <header id="header">
@@ -141,6 +154,11 @@ const USER_REGISTER_FORM_VIEW = () => `
             <button type="submit" style="background-color: rgb(150, 212, 227); padding: 0.5rem"; border-radius: 20%>登録</button>
         </form>
         </main>
+
+        <footer>
+            <a href="./register">団体専用ページ</a>
+        </footer>
+
         <script src="./static/calendar.js"></script>
     </body>
 </html>
@@ -155,17 +173,17 @@ const USER_TWEET_LIST_VIEW = (user, tweets) => `
 </div>
 `;
 
-const TWEET_FORM_VIEW = (users) => `
+const EVENT_FORM_VIEW = (users) => `
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <meta charset="uft-8">
+        <meta charset='uft-8'>
         <title>ただの練習用サイトです</title>
         <meta name="description" content="JSとSQLをうまく繋げられるか実験(SSR?)">
-        <meta name="width=device-width,initial-scale=1.0">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
-        <link rel="stylesheet" href="./static/style-event.css">
-        <link rel="stylesheet" href="./static/style-main.css">
+        <link rel="stylesheet" href="../static/style-event.css">
+        <link rel="stylesheet" href="../static/style-main.css">
     </head>
     <body>
         <header id="header">
@@ -177,20 +195,82 @@ const TWEET_FORM_VIEW = (users) => `
             </nav>
         </header>
         <main>
-        <h1 class="title">ツイート</h1>
-<form action="/tweet" method="POST">
-    <label for="content">内容</label>
-    <textarea name="content" id="content" rows="10"></textarea>
-    <label for="user_id">ユーザー</label>
-    <select name="user_id" id="user_id">
-        ${users
-          .map((user) => `<option value="${user.id}">${user.name}</option>`)
-          .join("\n")}
-    </select>
-    <button type="submit">投稿</button>
-</form>
+            <h1 class="title">イベント登録</h1>
+            <form action="/event/register" method="POST">
+                <label for="user_id">ユーザー</label>
+                <select name="user_id" id="user_id">
+                    ${users
+                        .map((user) => `<option value="${user.id}">${user.name}</option>`)
+                        .join("\n")}
+                </select>
+                <label for="name">イベント名</label>
+                <input type="text" name="name" id="name"/>
+                <label for="content">内容</label>
+                <textarea name="content" id="content" rows="10"></textarea>
+                <label for="year">年:</label>
+                <select id="year" name="year"></select>
+
+                <label for="month">月:</label>
+                <select id="month" name="month"></select>
+
+                <label for="day">日:</label>
+                <select id="day" name="day"></select>
+
+                <button type="submit">登録</button>
+            </form>
         </main>
-        <script src="./static/calendar.js"></script>
+
+        <footer>
+            <a href="./register">団体専用ページ</a>
+        </footer>
+
+        <script>
+
+        // 年の選択肢を作成
+        const yearSelect = document.getElementById('year');
+        const currentYear = new Date().getFullYear();
+        const startYear = currentYear; // 100年後まで選択可能にする
+        for (let year = startYear; year <= currentYear+100; year++) {
+          const option = document.createElement('option');
+          option.value = year;
+          option.textContent = year;
+          yearSelect.appendChild(option);
+        }
+
+        // 月の選択肢を作成
+        const monthSelect = document.getElementById('month');
+        for (let month = 1; month <= 12; month++) {
+          const option = document.createElement('option');
+          option.value = month;
+          option.textContent = month;
+          monthSelect.appendChild(option);
+        }
+
+        // 日の選択肢を作成
+        const daySelect = document.getElementById('day');
+
+        function updateDays() {
+          daySelect.innerHTML = ''; // 選択肢をリセット
+
+          const year = parseInt(yearSelect.value);
+          const month = parseInt(monthSelect.value);
+          const daysInMonth = new Date(year, month, 0).getDate();
+
+          for (let day = 1; day <= daysInMonth; day++) {
+            const option = document.createElement('option');
+            option.value = day;
+            option.textContent = day;
+            daySelect.appendChild(option);
+          }
+        }
+
+        yearSelect.addEventListener('change', updateDays);
+        monthSelect.addEventListener('change', updateDays);
+
+        // 初回表示時に日の選択肢を更新する
+        updateDays();
+
+        </script>
     </body>
 </html>
 `;
@@ -202,5 +282,5 @@ module.exports = {
     TWEET_LIST_VIEW,
     USER_REGISTER_FORM_VIEW,
     USER_TWEET_LIST_VIEW,
-    TWEET_FORM_VIEW,
+    EVENT_FORM_VIEW,
 };

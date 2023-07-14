@@ -33,9 +33,9 @@ const Dates = {
     createTable: `
         CREATE TABLE IF NOT EXISTS dates (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            date INTEGER NOT NULL,
             year INTEGER NOT NULL,
             month INTEGER NOT NULL,
+            date INTEGER NOT NULL,
             day INTEGER NOT NULL,
             user_id INTEGER NOT NULL
         );
